@@ -1,46 +1,46 @@
 import express from 'express';
 import cors from 'cors';
 import { agent } from './agent.js';
+import { addYTVideoToVectorStore } from './embeddings.js';
+
+const port = process.env.PORT || 3000;
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json({ limit: '200mb' }));
 app.use(cors());
-const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    
-    res.send('API is running');
-});
+
+
+
 
 app.post('/generate', async (req, res) => {
-    try {
-        const { query, video_id, thread_id } = req.body;
+  const { query, thread_id } = req.body;
+  console.log(query, thread_id);
 
-        const results = await agent.invoke(
-            {
-                messages: [
-                    { 
-                        role: 'user',
-                        content: query
-                    }
-                ]
-            },
-            {
-                configurable: { thread_id, video_id }
-            }
-        );
+  const results = await agent.invoke(
+    {
+      messages: [
+        {
+          role: 'user',
+          content: query,
+        },
+      ],
+    },
+    { configurable: { thread_id } }
+  );
 
-        res.json(results.messages.at(-1)?.content);
-    } catch (error) {
-        console.error('Error during generation:', error);
-        res.status(500).json({ error: 'Something went wrong' });
-    }
+  res.send(results.messages.at(-1)?.content);
 });
-app.post('/webhook',(req,res)=>{
-    
-})
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.post('/webhook', async (req, res) => {
+  await Promise.all(
+    req.body.map(async (video) => addYTVideoToVectorStore(video))
+  );
+
+  res.send('OK');
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
