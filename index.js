@@ -37,6 +37,9 @@ app.post('/generate', async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 });
+app.post('/webhook',(req,res)=>{
+    
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
