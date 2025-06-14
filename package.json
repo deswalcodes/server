@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@google-cloud/aiplatform": "^4.2.0",
+    "@google/generative-ai": "^0.24.1",
+    "@huggingface/inference": "^2.8.1",
+    "@langchain/anthropic": "^0.3.22",
+    "@langchain/community": "^0.3.46",
+    "@langchain/core": "^0.3.58",
+    "@langchain/google-vertexai": "^0.2.12",
+    "@langchain/langgraph": "^0.3.3",
+    "@langchain/openai": "^0.5.13",
+    "@langchain/textsplitters": "^0.1.0",
+    "@types/express": "^5.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "langchain": "^0.3.28",
+    "pg": "^8.16.0",
+    "zod": "^3.25.64"
+  }
+}
